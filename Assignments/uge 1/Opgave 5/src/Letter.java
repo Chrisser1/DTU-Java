@@ -1,3 +1,3 @@
-public record Letter(String content, String message) {
+    public record Letter(String content, String message) {
 
-}
+    }
