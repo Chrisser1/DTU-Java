@@ -1,21 +1,37 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        printCones();
+        printCubesSameLine();
+        printUSA();
+        printCubesSameLine();
+        printCones();
     }
 
-    public static void printTrianglesSameLine() {
-        System.out.println("/\\          /\\");
-        System.out.println("/  \\        /  \\");
-        System.out.println("/    \\      /    \\");
+    public static void printCones() {
+        System.out.println("   /\\          /\\");
+        System.out.println("  /  \\        /  \\");
+        System.out.println(" /    \\      /    \\");
     }
 
     public static void printCubesSameLine() {
-        System.out.println("+------+    +------+");
-        System.out.println("/    \\      /    \\");
-        System.out.println("/    \\      /    \\");
-        System.out.println("/    \\      /    \\");
-        System.out.println("/    \\      /    \\");
+        printCubeTopBottom();
+        printLine();
+        printLine();
+        printCubeTopBottom();
     }
 
-    public static void
+    public static void printCubeTopBottom(){
+        System.out.println("+------+    +------+");
+    }
+
+    public static void printLine() {
+        System.out.println("|      |    |      |");
+    }
+
+    public static void printUSA() {
+        System.out.println("|United|    |United|");
+        System.out.println("|States|    |States|");
+        System.out.println("|Denmar|    |kkkkkk|");
+        System.out.println("|IsMuch|    |Better|");
+    }
 }
