@@ -1,11 +1,8 @@
 public class Remember {
     public static void main(String[] args) throws Exception {
-        printRemember();
+        String s = "Use \"\\\\\" to obtain a  ’backslash’ character";
+        System.err.println(s);
         System.out.println("Remember:");
-        printRemember();
-    }
-
-    static void printRemember() {
-        System.out.println("Use \"\\\\\" to obtain a  ’backslash’ character");
+        System.err.println(s);
     }
 }
