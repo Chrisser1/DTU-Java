@@ -1,15 +1,13 @@
 public class FizzBuzz {
     public static void main(String[] args) {
         for (int i = 1; i <= 30; i++) {
-            boolean a = i % 3 == 0; // check if the number is divisible by 3
-            boolean b = i % 5 == 0; // check if the number is divisible by 5
+            // Checking divisibility of number i and assigning truth value to boolean
+            boolean fizz = i % 3 == 0;
+            boolean buzz = i % 5 == 0; 
 
-            System.out.print(a ? "Fizz" : ""); // if a is true then print Fizz else nothing
-            System.out.print(b ? "Buzz" : ""); // if b is true then print Buzz else nothing
-            /* if a and b is false then print
-               the current number on a new line
-               else print nothing and go to a new line */
-            System.out.println(!a && !b ? i : "");
+            System.out.print(fizz ? "Fizz" : "");
+            System.out.print(buzz ? "Buzz" : "");
+            System.out.println(!fizz && !buzz ? i : ""); // If neither fizz or buzz, print number, else nothing and new line
         }
     }
 }
