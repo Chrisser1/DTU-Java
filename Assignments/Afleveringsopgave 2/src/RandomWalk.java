@@ -1,18 +1,16 @@
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import java.awt.Color;
 
 public class RandomWalk {
     public static void main(String[] args) {
+        StdDraw.setCanvasSize(800, 800);
         Scanner scanner = new Scanner(System.in);
-        ThreadLocalRandom random = ThreadLocalRandom.current();
+        Random random = new Random("Zilas".hashCode());
         int size = getValidInt(scanner);
         double margin = 0.02 * size; // Add a small margin around the grid
         StdDraw.setXscale(-size - margin, size + margin);
         StdDraw.setYscale(-size - margin, size + margin);
-        double penRadius = Math.min(0.3 / (double) size, 0.05);  // Limit max size
-        penRadius = Math.max(penRadius, 0.001);  // Ensure it's not too small
-        StdDraw.setPenRadius(penRadius);
 
         // Init the position to (0,0)
         int posX = 0;
@@ -23,11 +21,11 @@ public class RandomWalk {
         while (isInRange) {
             // Smooth color transition using HSB (Hue, Saturation, Brightness)
             // Hue ranges from 0 to 1, so we map stepCount to a value between 0 and 1
-            float hueIncrement = 0.001f;  // Smaller increment for smoother transition
+            float hueIncrement = 0.0001f;  // Smaller increment for smoother transition
             float hue = (stepCount * hueIncrement) % 1.0f;  // Cycle through hues
             Color color = Color.getHSBColor(hue, 1.0f, 1.0f);  // Full saturation and brightness
             StdDraw.setPenColor(color);
-            StdDraw.point(posX, posY);
+            StdDraw.filledCircle(posX, posY, 0.5);
 
             // Do a random walk
             switch (random.nextInt(0, 4)) {
