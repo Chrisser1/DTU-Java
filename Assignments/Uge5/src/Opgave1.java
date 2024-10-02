@@ -1,7 +1,7 @@
 import java.io.File;
 import java.util.Scanner;
 
-public class FileReader {
+public class Opgave1 {
     public static void main(String[] args) throws Exception {
         String filePath = "opg05/problem2.html";
         try (Scanner scanner = new Scanner(new File(filePath))) {

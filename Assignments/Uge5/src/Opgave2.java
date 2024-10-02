@@ -1,25 +1,28 @@
 import java.io.File;
 import java.util.Scanner;
 
-public class Average {
+public class Opgave2 {
     public static void main(String[] args) {
-        String filePath = "opg05/numberinput2.dat";
-        try (Scanner scanner = new Scanner(new File(filePath))) {
-            readAllNumbers(scanner);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input file path: ");
+        String filePath = scanner.nextLine();
+        scanner.close();
+        try (Scanner fileScanner = new Scanner(new File(filePath))) {
+            readAllNumbers(fileScanner);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private static void readAllNumbers(Scanner scanner) {
-        double largest = Double.MIN_VALUE;
-        double smallest = Double.MAX_VALUE;
-        double sum = 0;
+        int largest = Integer.MIN_VALUE;
+        int smallest = Integer.MAX_VALUE;
+        int sum = 0;
         int count = 0;
         System.out.println("The numbers are: ");
         while (scanner.hasNext()) {
-            if (scanner.hasNextDouble()) {
-                double number = scanner.nextDouble();
+            if (scanner.hasNextInt()) {
+                int number = scanner.nextInt();
                 count++;
                 sum += number;
 
