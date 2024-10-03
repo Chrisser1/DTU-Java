@@ -30,7 +30,7 @@ public class Opgave1 {
 
         printSevenScaleNumber(thirteenScaleInput);
     }
-
+*
     private static void printSevenScaleNumber(int thirteenScaleInput) {
         switch (thirteenScaleInput) {
             case 0 -> System.out.println(thirteenScaleInput + " as 7-trinsskalaen er: " + -3);
