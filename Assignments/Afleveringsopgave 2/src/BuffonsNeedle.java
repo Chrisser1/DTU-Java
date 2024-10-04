@@ -9,11 +9,13 @@ public class BuffonsNeedle {
         int hits = 0;
 
         for (int i = 0; i < NEEDLE_AMOUNT; i++) {
+            // Generates a new needle
             double angle = random.nextDouble(0, 180);
             double distance = random.nextDouble(0, 2);
+            double angleRadians = angle * (Math.PI / 180);
 
             // Check if needle hits a line
-            if (needleHitLine(distance, angle)) {
+            if (needleHitLine(distance, angleRadians)) {
                 hits++;
             }
         }
@@ -23,9 +25,7 @@ public class BuffonsNeedle {
         System.out.println(NEEDLE_AMOUNT + " / " + hits + " = " + piApprox);
     }
 
-    public static boolean needleHitLine(double distance, double angleDegrees) {
-        // Convert angle to radians
-        double angleRadians = angleDegrees * (Math.PI / 180);
+    public static boolean needleHitLine(double distance, double angleRadians) {
         // Calculate the top position using the sine function
         double topPosition = Math.sin(angleRadians) + distance;
         return (topPosition >= 2);
