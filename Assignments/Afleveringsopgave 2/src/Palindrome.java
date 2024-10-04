@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Opgave2 {
+public class Palindrome {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input a word: ");
@@ -13,7 +13,7 @@ public class Opgave2 {
         }
     }
 
-    private static String reverse(String input) {
+    private static String reverse(String input) { // Vender et string om
         String result = "";
         for (int i = 1; i <= input.length(); i++) {
             result += input.charAt(input.length() - i);
@@ -21,10 +21,10 @@ public class Opgave2 {
         return result;
     }
 
-    private static boolean isPalindrome(String input) {
+    private static boolean isPalindrome(String input) { // Returnerer sand hvis input-string er identisk med input-string vendt om.
         input = input.toLowerCase();
         // Use regular expression to match all non-alphabetic characters and replace with empty string
         input = input.replaceAll("[^a-z]", "");
-        return input.equals(reverse(input));
+        return input.equals(reverse(input)); 
     }
 }

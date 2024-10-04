@@ -1,13 +1,11 @@
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
 
 public class BuffonsNeedle {
 
     public static final int NEEDLE_AMOUNT = 100_000_000;
-    private static final double PI_DIV_180 = Math.PI / 180; // Conversion factor from degrees to radians
 
     public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        ThreadLocalRandom random = ThreadLocalRandom.current();
+        Random random = new Random();
         int hits = 0;
 
         for (int i = 0; i < NEEDLE_AMOUNT; i++) {
@@ -23,14 +21,11 @@ public class BuffonsNeedle {
         System.out.println("Dropped " + NEEDLE_AMOUNT + " needles. " + hits + " of them hit.");
         double piApprox = (double) NEEDLE_AMOUNT / (double) hits;
         System.out.println(NEEDLE_AMOUNT + " / " + hits + " = " + piApprox);
-
-        long end = System.currentTimeMillis();
-        System.out.println("It took " + (end - start) + "ms");
     }
 
     public static boolean needleHitLine(double distance, double angleDegrees) {
-        // Convert angle to radians for Math.sin (use precomputed PI_DIV_180)
-        double angleRadians = angleDegrees * PI_DIV_180;
+        // Convert angle to radians
+        double angleRadians = angleDegrees * (Math.PI / 180);
         // Calculate the top position using the sine function
         double topPosition = Math.sin(angleRadians) + distance;
         return (topPosition >= 2);
