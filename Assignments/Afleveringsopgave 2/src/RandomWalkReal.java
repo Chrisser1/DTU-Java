@@ -3,11 +3,13 @@ import java.util.Scanner;
 
 public class RandomWalkReal {
     public static void main(String[] args) {
-        Scanner console = new Scanner(System.in);
+        // Setting the canvas size
         StdDraw.setCanvasSize(800,800);
-        System.out.println("Input the grid size as a whole number: ");
+        
         //Creating grid with size the user inputs as a integer
-        int gridSize = console.nextInt();
+        System.out.println("Input the grid size as a whole positive number: ");
+        int gridSize = getNumber();
+        System.out.println(gridSize);
         createGrid(gridSize);
         //Creating a random object
         Random random = new Random();
@@ -18,7 +20,7 @@ public class RandomWalkReal {
         while(x < gridSize && x > -gridSize && y < gridSize && y > -gridSize) {
             draw(x, y);
             double randomNumber = random.nextDouble();
-
+            
             if (randomNumber < 0.25){
                 x++;
             }else if(randomNumber < 0.5){
@@ -38,5 +40,23 @@ public class RandomWalkReal {
     //Creating the grid
     public static void draw(int x, int y) {
         StdDraw.filledCircle(x, y, 0.5);
+    }
+    public static int getNumber(){
+        Scanner console = new Scanner(System.in);
+        int x = 0;
+        boolean isTrue = false;
+
+        while (!isTrue){
+            try {
+                x = Integer.parseInt(console.nextLine());
+                isTrue = true;
+                if (x < 0) {
+                    x *= -1;
+                }
+            } catch (Exception e) {
+                System.out.println("Error: input was not a whole number");
+            }
+        }
+        return x;
     }
 }
