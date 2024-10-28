@@ -45,7 +45,7 @@ public class PrimeFactors {
 
                 value /= divisor;
             } else {
-                // we plus with two the second time even numbers exept 2 is not prime
+                // we plus with two the second time (even numbers except 2 is not prime)
                 if (first) {
                     first = false;
                     divisor++;
