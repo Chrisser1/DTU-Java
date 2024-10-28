@@ -1,3 +1,4 @@
+package Opgave1;
 import java.util.Scanner;
 
 public class PrimeFactors {
