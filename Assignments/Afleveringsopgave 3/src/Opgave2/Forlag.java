@@ -5,6 +5,7 @@ public class Forlag {
     private String navn;
     private String sted;
 
+    //The Constructor for Forlag
     public Forlag (String navn, String sted) {
         this.navn = navn;
         this.sted = sted;
