@@ -24,6 +24,6 @@ public class Artikel {
             result += " & " + forfattere[i];
         }
 
-        return result + " \"" + titel + "\". " + tidsskrift.toString();
+        return result + ": \"" + titel + "\". " + tidsskrift.toString() + ".";
     }
 }
