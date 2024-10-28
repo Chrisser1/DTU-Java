@@ -5,13 +5,15 @@ public class PrimeFactors {
         Scanner scanner = new Scanner(System.in);
         long value = 0;
         while (true) {
+            // Get a valid user input
             value = getValidInput(scanner);
 
             if (value == 0) {
+                System.out.println("Terminating program.");
                 break;
             }
-
-            
+            System.out.println("Prime factors of " + value + " are:");
+            findPrimeFactors(value);
         }
     }
 
@@ -29,5 +31,25 @@ public class PrimeFactors {
             }
         }
         return value;
+    }
+
+    private static void findPrimeFactors(long value) {
+        long divisor = 2; // smallest prime number
+        boolean first = true;
+        // While value is greater than 1, find prime factors
+        while (value > 1) {
+            // While the divisor can divide the value, it's a prime factor
+            while (value % divisor == 0) {
+                if (first) {
+                    first = false;
+                    System.out.print(divisor);
+                } else {
+                    System.out.print(", " + divisor);
+                }
+                value /= divisor;
+            }
+            divisor++;
+        }
+        System.out.println();
     }
 }
