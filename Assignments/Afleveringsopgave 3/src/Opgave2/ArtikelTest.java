@@ -14,11 +14,14 @@ public class ArtikelTest {
         tidsskrift2.setForlag(forlag1);
 
         //Creating two "artikel's"
-        Artikel artikel1 = new Artikel(new String[] {"A. Abe", "A. Turing"}, "A", tidsskrift1);
         Artikel artikel2 = new Artikel(new String[] {"B. Bim"}, "B", tidsskrift1);
+        Artikel artikel1 = new Artikel(new String[] {"A. Abe", "A. Turing"}, "A", tidsskrift1);
+
+        //Setting the referencelist for the first "artikel"
+        artikel1.setReferencelist(new Artikel[]{artikel2});
 
         //printing the 2 "artikel's"
-        System.out.println(artikel1.toString());
-        System.out.println(artikel2.toString());
+        System.out.println(artikel1);
+        System.out.println(artikel2);
     }
 }

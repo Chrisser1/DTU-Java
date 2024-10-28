@@ -4,7 +4,7 @@ public class Artikel {
     private String[] forfattere;
     private String titel;
     private Tidsskrift tidsskrift;
-    private String[] referencelist;
+    private Artikel[] referencelist;
 
     public Artikel (String[] forfattere, String titel, Tidsskrift tidsskrift) {
         this.forfattere = forfattere;
@@ -12,7 +12,7 @@ public class Artikel {
         this.tidsskrift = tidsskrift;
     }
     
-    public void setReferencelist (String[] referencelist) {
+    public void setReferencelist (Artikel[] referencelist) {
         this.referencelist = referencelist;
     }
 
