@@ -16,7 +16,8 @@ public class Tidsskrift {
     public void setIssn (String issn) {
         this.issn = issn;
     }
-
+    
+    @Override
     public String toString () {
         return titel;
     }

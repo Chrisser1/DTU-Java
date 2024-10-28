@@ -16,6 +16,7 @@ public class Artikel {
         this.referencelist = referencelist;
     }
 
+    @Override
     public String toString () {
     
         String result = forfattere[0];

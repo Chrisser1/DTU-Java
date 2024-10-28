@@ -10,6 +10,7 @@ public class Forlag {
         this.sted = sted;
     }
 
+    @Override
     public String toString() {
         return navn;
     }
