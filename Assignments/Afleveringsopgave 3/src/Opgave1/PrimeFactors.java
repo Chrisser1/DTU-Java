@@ -35,26 +35,22 @@ public class PrimeFactors {
     }
 
     private static void findPrimeFactors(long value) {
-        long divisor = 2; // smallest prime number
-        boolean first = true;
-        // While value is greater than 1, find prime factors
-        while (divisor * divisor <= value) {
-            // While the divisor can divide the value, it's a prime factor
-            if (value % divisor == 0) {
-                System.out.print(divisor + ", ");
+        // Print alle 2'ere som primfaktorer
+        while (value % 2 == 0) {
+            System.out.print(2 + ", ");
+            value /= 2;
+        }
 
-                value /= divisor;
-            } else {
-                // we plus with two the second time (even numbers except 2 is not prime)
-                if (first) {
-                    first = false;
-                    divisor++;
-                } else {
-                    divisor += 2;
-                }
+        // Nu er value ulige. Vi kan hoppe over lige tal
+        for (long i = 3; i * i <= value; i += 2) {
+            while (value % i == 0) {
+                System.out.print(i + ", ");
+                value /= i;
             }
         }
-        if (value != 1) {
+
+        // Hvis value er et primtal større end 2
+        if (value > 2) {
             System.out.print(value);
         }
         System.out.println();
