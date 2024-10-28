@@ -38,18 +38,24 @@ public class PrimeFactors {
         long divisor = 2; // smallest prime number
         boolean first = true;
         // While value is greater than 1, find prime factors
-        while (value > 1) {
+        while (divisor * divisor <= value) {
             // While the divisor can divide the value, it's a prime factor
-            while (value % divisor == 0) {
+            if (value % divisor == 0) {
+                System.out.print(divisor + ", ");
+
+                value /= divisor;
+            } else {
+                // we plus with two the second time even numbers exept 2 is not prime
                 if (first) {
                     first = false;
-                    System.out.print(divisor);
+                    divisor++;
                 } else {
-                    System.out.print(", " + divisor);
+                    divisor += 2;
                 }
-                value /= divisor;
             }
-            divisor++;
+        }
+        if (value != 1) {
+            System.out.print(value);
         }
         System.out.println();
     }
