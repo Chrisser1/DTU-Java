@@ -43,6 +43,11 @@ public class PrimeFactors {
 
         // Nu er value ulige. Vi kan hoppe over lige tal
         for (long i = 3; i * i <= value; i += 2) {
+            //  break in case of overflow
+            if (i * i < 0) {
+                System.out.println("Overflow happened!");
+                break;
+            }
             while (value % i == 0) {
                 System.out.print(i + ", ");
                 value /= i;
