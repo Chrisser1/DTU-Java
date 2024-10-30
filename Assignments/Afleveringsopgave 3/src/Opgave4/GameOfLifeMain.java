@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.awt.Color;
 public class GameOfLifeMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -12,7 +12,7 @@ public class GameOfLifeMain {
 
         GameOfLife gameOfLife = makeFromFile(stateFile);
         int gridSize = gameOfLife.gameState.length;
-        int n = 200;
+        int n = 20;
 
         // Set the canvas size and scale
         StdDraw.setCanvasSize(500, 500);
@@ -115,10 +115,26 @@ public class GameOfLifeMain {
 
         for (int x = 0; x < lengthX; x++) {
             for (int y = 0; y < lengthY; y++) {
-                if (gameOfLife.gameState[x][y] == 1) {
+                if (gameOfLife.gameState[x][y] > 0) {
+                    StdDraw.setPenColor(getCellColor(gameOfLife.gameState[x][y]));
                     StdDraw.filledSquare(x + 0.5, y + 0.5, 0.5);
                 }
             }
+        }
+    }
+
+    private static Color getCellColor(int cellState) {
+        switch (cellState) {
+            case 1:
+                return Color.BLACK;
+            case 2:
+                return Color.BLUE;
+            case 3:
+                return Color.RED;
+            case 4:
+                return Color.GREEN;
+            default:
+                return Color.PINK;
         }
     }
 }

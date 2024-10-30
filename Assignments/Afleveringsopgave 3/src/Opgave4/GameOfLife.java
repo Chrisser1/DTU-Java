@@ -2,7 +2,7 @@ package Opgave4;
 
 public class GameOfLife {
     int[][] gameState;
-
+    
     public GameOfLife(int n) {
         this.gameState = new int[n][n];
     }
@@ -20,7 +20,7 @@ public class GameOfLife {
             for (int y = 0; y < lengthY; y++) {
                 int neighbors = liveNeighbors(x, y);
 
-                if (this.gameState[x][y] == 1) {
+                if (this.gameState[x][y] > 0) {
                     // Cell is alive
                     if (neighbors < 2 || neighbors > 3) {
                         // Cell dies due to underpopulation or overpopulation
@@ -60,13 +60,22 @@ public class GameOfLife {
                 }
 
                 int neighborX = x + i;
-                int neighborY = y + j;
-
-                // Check if the neighbor is within bounds
-                if (neighborX >= 0 && neighborX < lengthX && neighborY >= 0 && neighborY < lengthY) {
-                    // If the cell is more than one then there is a neighbor
-                    count += gameState[neighborX][neighborY] > 0 ? 1 : 0;
+                // Handle out of bounds to get the grid behavior to match torus
+                if (neighborX >= lengthX) {
+                    neighborX = 0;
+                } else if (neighborX < 0) {
+                    neighborX = lengthX - 1;
                 }
+
+                int neighborY = y + j;
+                if (neighborY >= lengthY) {
+                    neighborY = 0;
+                } else if (neighborY < 0) {
+                    neighborY = lengthY - 1;
+                }
+
+                // If the cell is more than one then there is a neighbor
+                count += gameState[neighborX][neighborY] > 0 ? 1 : 0;
             }
         }
 
