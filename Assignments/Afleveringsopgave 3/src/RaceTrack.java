@@ -11,9 +11,11 @@ public class RaceTrack{
         StdDraw.setCanvasSize(WIDTH,HEIGHT);
         StdDraw.setPenColor(0, 0, 0);
         StdDraw.text(WIDTH/2, HEIGHT/2, "Look in your terminal :)");
-        StdDraw.textLeft(1, 10, "test");
         Scanner scanner = new Scanner(System.in);
         drawRaceTrack(getValidInt(scanner, 0, 100, true), 3, 3);
+        for (int i = 0; i<7; i++){
+            drawRaceTrack(getValidInt(scanner,1,10,true),i+3,i+3);
+        }
         while (true){
             drawDefaultTrack(getValidInt(scanner, 0, 100, true));
         }
@@ -50,16 +52,24 @@ public class RaceTrack{
                 double yPos = k-0.5;
                 double xPosUpscaled = xPos*squareSizePx;
                 double yPosUpscaled = yPos*squareSizePx;
-                StdDraw.setPenColor(trackColor);
-                StdDraw.filledSquare(xPosUpscaled, yPosUpscaled,(double) squareSizePx/2); 
+                //!!KAN ERSTATTES MED ET ENKELT REKTANGEL
+                //StdDraw.setPenColor(trackColor);
+                //StdDraw.filledSquare(xPosUpscaled, yPosUpscaled,(double) squareSizePx/2); 
                 StdDraw.setPenColor(trackStrokeColor);
                 StdDraw.square(xPosUpscaled, yPosUpscaled,(double) squareSizePx/2);
             }
         }
+        double centerX = mapWidthPx/2;
+        double centerY = mapLengthPx/2;
+        if (mapWidthPx % 2 == 1){centerX+=0.5;}
+        if (mapLengthPx % 2 == 1){centerY+=0.5;}
+        double centerRectWidth = (mapWidthPx/trackWidth)*(trackWidth-2)*0.5;
+        double centerRectLength = (mapLengthPx/trackLength)*(trackWidth-2)*0.5;
+        
         StdDraw.setPenColor(backgroundColor);
-        StdDraw.filledRectangle(mapWidthPx/2,mapLengthPx/2, (mapWidthPx/trackWidth)*(trackWidth-2)*0.5, (mapLengthPx/trackLength)*(trackWidth-2)*0.5);
+        StdDraw.filledRectangle(centerX, centerY, centerRectWidth, centerRectLength);
         StdDraw.setPenColor(trackStrokeColor);
-        StdDraw.rectangle(mapWidthPx/2,mapLengthPx/2, mapWidthPx/trackWidth, mapLengthPx/trackLength);
+        StdDraw.rectangle(centerX, centerY, centerRectWidth, centerRectLength);
 
         //StdDraw.line(5*laneWidth,10,10*laneWidth,10*laneWidth);
         //StdDraw.filledCircle(laneWidth, laneWidth, 1);
