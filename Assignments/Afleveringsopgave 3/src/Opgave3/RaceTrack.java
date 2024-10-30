@@ -1,3 +1,5 @@
+package Opgave3;
+
 import java.util.Scanner;
 import java.util.Random;
 import java.awt.Color;
@@ -53,8 +55,8 @@ public class RaceTrack{
                 double xPosUpscaled = xPos*squareSizePx;
                 double yPosUpscaled = yPos*squareSizePx;
                 //!!KAN ERSTATTES MED ET ENKELT REKTANGEL
-                //StdDraw.setPenColor(trackColor);
-                //StdDraw.filledSquare(xPosUpscaled, yPosUpscaled,(double) squareSizePx/2); 
+                // StdDraw.setPenColor(trackColor);
+                // StdDraw.filledSquare(xPosUpscaled, yPosUpscaled,(double) squareSizePx/2);
                 StdDraw.setPenColor(trackStrokeColor);
                 StdDraw.square(xPosUpscaled, yPosUpscaled,(double) squareSizePx/2);
             }
@@ -65,7 +67,7 @@ public class RaceTrack{
         if (mapLengthPx % 2 == 1){centerY+=0.5;}
         double centerRectWidth = (mapWidthPx/trackWidth)*(trackWidth-2)*0.5;
         double centerRectLength = (mapLengthPx/trackLength)*(trackWidth-2)*0.5;
-        
+
         StdDraw.setPenColor(backgroundColor);
         StdDraw.filledRectangle(centerX, centerY, centerRectWidth, centerRectLength);
         StdDraw.setPenColor(trackStrokeColor);

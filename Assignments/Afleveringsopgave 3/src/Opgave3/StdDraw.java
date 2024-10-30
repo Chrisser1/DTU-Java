@@ -1,3 +1,5 @@
+package Opgave3;
+
 /*************************************************************************
  *  Compilation:  javac StdDraw.java
  *  Execution:    java StdDraw
