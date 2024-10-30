@@ -30,7 +30,7 @@ public class GameOfLifeMain {
     }
 
     private static File getUserInit(Scanner scanner) {
-        File folder = new File("src\\Opgave4\\states");
+        File folder = new File("Assignments\\Afleveringsopgave 3\\src\\Opgave4\\states");
         File[] listOfFiles = folder.listFiles();
 
         if (listOfFiles == null || listOfFiles.length == 0) {
