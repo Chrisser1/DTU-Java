@@ -1,0 +1,19 @@
+public class BoundingBox{
+    boolean inclusive;
+    int x1, y1;
+    int x2, y2;
+
+    public BoundingBox(int _x1, int _y1, int _x2, int _y2, boolean inclusive){
+        this.x1 = _x1;
+        this.y1 = _y1;
+        this.x2 = _x2;
+        this.y2 = _y2;
+        this.inclusive = inclusive;
+    }
+
+    public boolean legalPosition(int xPos, int yPos){
+        if (xPos <= Math.max(this.x1,this.x2) && xPos >= Math.min(this.x1,this.x2)){
+            
+        }
+    }
+}
