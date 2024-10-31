@@ -12,7 +12,7 @@ public class GameOfLifeMain {
 
         GameOfLife gameOfLife = makeFromFile(stateFile);
         int gridSize = gameOfLife.gameState.length;
-        int periodicLength = 64;
+        int periodicLength = 2000;
         int[] states = new int[periodicLength];
         int n = 20;
 
@@ -43,8 +43,7 @@ public class GameOfLifeMain {
     }
 
     private static File getUserInit(Scanner scanner) {
-        // File folder = new File("Assignments\\Afleveringsopgave 3\\src\\Opgave4\\states");
-        File folder = new File("src\\Opgave4\\states");
+        File folder = new File("Assignments\\Afleveringsopgave 3\\src\\Opgave4\\states");
         File[] listOfFiles = folder.listFiles();
 
         if (listOfFiles == null || listOfFiles.length == 0) {

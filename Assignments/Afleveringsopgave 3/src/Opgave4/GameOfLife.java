@@ -85,6 +85,12 @@ public class GameOfLife {
     }
 
     public int getUniqueState() {
-        return Arrays.deepHashCode(this.gameState);
+        StringBuilder builder = new StringBuilder();
+
+        for (int[] row : gameState) {
+            builder.append(Arrays.toString(row));
+        }
+
+        return builder.toString().hashCode();
     }
 }
