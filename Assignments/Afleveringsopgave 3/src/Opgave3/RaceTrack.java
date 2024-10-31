@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-package Opgave3;
-
-import java.util.Scanner;
-import java.util.Random;
-=======
->>>>>>> Aflevering3Opg3
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -82,15 +75,9 @@ public class RaceTrack {
                 double xPosUpscaled = xPos*squareSizePx;
                 double yPosUpscaled = yPos*squareSizePx;
                 //!!KAN ERSTATTES MED ET ENKELT REKTANGEL
-<<<<<<< HEAD
-                // StdDraw.setPenColor(trackColor);
-                // StdDraw.filledSquare(xPosUpscaled, yPosUpscaled,(double) squareSizePx/2);
-                StdDraw.setPenColor(trackStrokeColor);
-=======
                 StdDraw.setPenColor(Main.TRACK_COLOR);
                 StdDraw.filledSquare(xPosUpscaled, yPosUpscaled,(double) squareSizePx/2); 
                 StdDraw.setPenColor(Main.TRACK_STROKE_COLOR);
->>>>>>> Aflevering3Opg3
                 StdDraw.square(xPosUpscaled, yPosUpscaled,(double) squareSizePx/2);
             }
         }
@@ -98,17 +85,10 @@ public class RaceTrack {
         double centerY = mapLengthPx/2;
         if (mapWidthPx % 2 == 1){centerX+=0.5;}
         if (mapLengthPx % 2 == 1){centerY+=0.5;}
-<<<<<<< HEAD
-        double centerRectWidth = (mapWidthPx/trackWidth)*(trackWidth-2)*0.5;
-        double centerRectLength = (mapLengthPx/trackLength)*(trackWidth-2)*0.5;
-
-        StdDraw.setPenColor(backgroundColor);
-=======
         double centerRectWidth = (mapWidthPx/gridWidth)*(gridWidth-2)*0.5;
         double centerRectLength = (mapLengthPx/gridLength)*(gridWidth-2)*0.5;
         
         StdDraw.setPenColor(Main.BACKGROUND_COLOR);
->>>>>>> Aflevering3Opg3
         StdDraw.filledRectangle(centerX, centerY, centerRectWidth, centerRectLength);
         StdDraw.setPenColor(Main.TRACK_STROKE_COLOR);
         StdDraw.rectangle(centerX, centerY, centerRectWidth, centerRectLength);
@@ -117,39 +97,4 @@ public class RaceTrack {
         //StdDraw.filledCircle(laneWidth, laneWidth, 1);
     }
 
-<<<<<<< HEAD
-
-
-
-    private static int getValidInt(Scanner scanner, int min, int max, boolean presetMessages) {
-        if (presetMessages) {
-            System.out.print("Enter an integer in the interval ["+min+","+max+"]:");
-        }
-        int number = min-1;
-        boolean validInput = false;
-
-        while (!validInput) {
-            if (scanner.hasNextInt()) {
-                number = scanner.nextInt();
-                if (number >= min && number <= max) {
-                    validInput = true;
-                } else {
-                    System.out.println("Input must be in the interval ["+min+","+max+"], try again:");
-                }
-            } else {
-                System.out.println("Invalid input - not an integer. Please enter an integer in the interval ["+min+","+max+"]:");
-                scanner.next();  // consume the invalid input
-            }
-        }
-        if (presetMessages){
-            System.out.println("Accepted input: " + number);
-        }
-        return number;
-    }
-
-    private static int getValidInt(Scanner scanner){
-        return getValidInt(scanner, 0, 2147483647, false);
-    }
-=======
->>>>>>> Aflevering3Opg3
 }
