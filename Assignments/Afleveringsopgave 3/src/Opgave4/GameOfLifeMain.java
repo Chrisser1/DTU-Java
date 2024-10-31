@@ -12,6 +12,8 @@ public class GameOfLifeMain {
 
         GameOfLife gameOfLife = makeFromFile(stateFile);
         int gridSize = gameOfLife.gameState.length;
+        int periodicLength = 64;
+        int[] states = new int[periodicLength];
         int n = 20;
 
         // Set the canvas size and scale
@@ -19,18 +21,30 @@ public class GameOfLifeMain {
         StdDraw.setScale(0, gridSize);
         StdDraw.setYscale(gridSize, 0); // Invert y-axis
 
-        while (true) {
+        int i = 0;
+        boolean periodic = false;
+        while (!periodic) {
             // Clear the previous frame
             StdDraw.clear();
+            // Save the state in the state list
+            states[i % periodicLength] = gameOfLife.getUniqueState();
+            // If we have a duplicate set periodic to true
+            if (containsDuplicate(states)) {
+                periodic = true;
+            }
+
             // Draw the game state
-            drawGrid(gameOfLife);
+            drawGrid(gameOfLife, periodic);
             StdDraw.show(n);
+
             gameOfLife.nextState();
+            i++;
         }
     }
 
     private static File getUserInit(Scanner scanner) {
-        File folder = new File("Assignments\\Afleveringsopgave 3\\src\\Opgave4\\states");
+        // File folder = new File("Assignments\\Afleveringsopgave 3\\src\\Opgave4\\states");
+        File folder = new File("src\\Opgave4\\states");
         File[] listOfFiles = folder.listFiles();
 
         if (listOfFiles == null || listOfFiles.length == 0) {
@@ -109,7 +123,7 @@ public class GameOfLifeMain {
     }
 
 
-    private static void drawGrid(GameOfLife gameOfLife) {
+    private static void drawGrid(GameOfLife gameOfLife, boolean periodic) {
         int lengthX = gameOfLife.gameState.length;
         int lengthY = gameOfLife.gameState[0].length;
 
@@ -120,6 +134,11 @@ public class GameOfLifeMain {
                     StdDraw.filledSquare(x + 0.5, y + 0.5, 0.5);
                 }
             }
+        }
+
+        if (periodic) {
+            StdDraw.setPenColor(Color.RED);
+            StdDraw.text(lengthX/2, lengthY/2, "A periodic loop was detected");
         }
     }
 
@@ -136,5 +155,16 @@ public class GameOfLifeMain {
             default:
                 return Color.PINK;
         }
+    }
+
+    public static boolean containsDuplicate(int[] list) {
+        for (int i = 0; i < list.length; i++) {
+            for (int j = i + 1; j < list.length; j++) {
+                if (list[i] == list[j] && (list[i] != 0 && list[j] != 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

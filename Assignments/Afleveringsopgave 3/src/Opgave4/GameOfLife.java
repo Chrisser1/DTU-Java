@@ -1,8 +1,10 @@
 package Opgave4;
 
+import java.util.Arrays;
+
 public class GameOfLife {
     int[][] gameState;
-    
+
     public GameOfLife(int n) {
         this.gameState = new int[n][n];
     }
@@ -80,5 +82,9 @@ public class GameOfLife {
         }
 
         return count;
+    }
+
+    public int getUniqueState() {
+        return Arrays.deepHashCode(this.gameState);
     }
 }
