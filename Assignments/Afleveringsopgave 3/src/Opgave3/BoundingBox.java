@@ -5,6 +5,7 @@ public class BoundingBox{
     boolean inclusive;
     int x1, y1, x1PxValue, y1PxValue;
     int x2, y2, x2PxValue, y2PxValue;
+    
 
     public BoundingBox(int _x1, int _y1, int _x2, int _y2, boolean inclusive){
         this.x1 = _x1;
@@ -32,19 +33,9 @@ public class BoundingBox{
         int yMin = Math.min(this.y1PxValue,this.y2PxValue);
         int yMax = Math.max(this.y1PxValue,this.y2PxValue);
         if (xPos >= xMin && xPos < xMax && yPos >= yMin && yPos < yMax){
-            System.out.println("Inside box!");
             return true;
         } else {
-            System.out.println("Not inside.. xPos: "+xPos+" yPos: "+yPos);
-            System.out.println("xMin: "+xMin+" xMax: "+xMax);
-            System.out.println("yMin: "+yMin+" yMax: "+yMax);
             return false;
-        }
-    }
-
-    public void drawIfSelected(int xMouse, int yMouse, boolean overwrite){
-        if (this.insideBoundPx(xMouse, yMouse)){
-            this.display(Main.TRACK_COLOR);
         }
     }
 

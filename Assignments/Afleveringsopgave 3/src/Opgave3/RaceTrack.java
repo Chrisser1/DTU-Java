@@ -13,6 +13,7 @@ public class RaceTrack {
 
     private ArrayList<BoundingBox> inclusiveBoxes;
     private ArrayList<BoundingBox> exclusiveBoxes;
+    private ArrayList<Button> buttons;
 
     private RaceTrack(int width, int length, String id){
         this.gridWidth = width;
@@ -24,6 +25,7 @@ public class RaceTrack {
 
         this.inclusiveBoxes = new ArrayList<>();
         this.exclusiveBoxes = new ArrayList<>();
+        this.buttons = new ArrayList<>();
         if (!premadeID.equals("new")){
             addBoundingBoxesFromID(premadeID);
         }
@@ -69,12 +71,10 @@ public class RaceTrack {
     public void addBoundingBoxesFromID(String ID){
         switch (ID) {
             case "TrackChooser" -> {
-                this.inclusiveBoxes.add(new BoundingBox(2, 2, 9, 9, true));
-
-                this.inclusiveBoxes.add(new BoundingBox(11, 11, 18, 18, true));
-
-                this.inclusiveBoxes.add(new BoundingBox(2, 11, 9, 18, true));
-                this.inclusiveBoxes.add(new BoundingBox(11, 2, 18, 9, true));
+                this.buttons.add(new Button(2, 2, 9, 9, "Square"));
+                this.buttons.add(new Button(11, 11, 18, 18, "Lea"));
+                this.buttons.add(new Button(2, 11, 9, 18, "new"));
+                this.buttons.add(new Button(11, 2, 18, 9, "TrackChooser"));
             }
             case "Square" -> {
                 
@@ -193,5 +193,13 @@ public class RaceTrack {
 
     public int getMapLengthPx(){
         return this.mapWidthPx;
+    }
+
+    public void addButton(Button button){
+        this.buttons.add(button);
+    }
+
+    public ArrayList<Button> getButtons(){
+        return this.buttons;
     }
 }

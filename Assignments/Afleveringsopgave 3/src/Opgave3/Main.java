@@ -1,51 +1,54 @@
 package Opgave3;
 import java.util.Scanner;
 import java.awt.Color;
-import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 
 public class Main{
     public static final int WIDTH = 1000;
     public static final int LENGTH = 1000;
     public static final int SQUARE_SIZE_PX = 5;
-    public static final Color BACKGROUND_COLOR = new Color(50,130,130);
+    public static final Color BACKGROUND_COLOR = new Color(100,130,150);
     public static final Color TRACK_COLOR = new Color(200,230,250);
-    public static final Color TRACK_STROKE_COLOR = new Color(100,130,150);
+    public static final Color TRACK_STROKE_COLOR = new Color(50,130,130);
     public static final Color GRID_DOT_COLOR = new Color(0,0,0);
-    public ArrayList<RaceTrack> raceTracks = new ArrayList<>();
-    public static RaceTrack selectedTrack;
+    private static ArrayList<RaceTrack> raceTracks = new ArrayList<>();
+    private static RaceTrack selectedTrack;
+    private static boolean initialisingGame = true;
 
     public static void main(String[] args) {
         StdDraw.setCanvasSize(WIDTH,LENGTH);
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
         RaceTrack trackChooser = RaceTrack.create("TrackChooser");
+        raceTracks.add(trackChooser);
         selectedTrack = trackChooser;
 
-        RaceTrack leaTrack = RaceTrack.create("Lea");
+        //RaceTrack leaTrack = RaceTrack.create("Lea");
 
         trackChooser.initTrackFrame();
         trackChooser.displayGrid();
         //track.display();
         trackChooser.displayAllBoundingBoxes();
-        
 
-        while (true) {
-            // Check if the mouse is pressed
+        while (initialisingGame) {
+            int xMouse = (int) StdDraw.mouseX();
+            int yMouse = (int) StdDraw.mouseY();
+            for (Button button : trackChooser.getButtons()){
+                button.updateDisplay(xMouse, yMouse);
+            }
             if (StdDraw.mousePressed()) {
-                System.out.println("MOUSE PRESSED RAHHH");
-                // Get the current mouse coordinates
-                int x = (int) StdDraw.mouseX();
-                int y = (int) StdDraw.mouseY();
-
-                for (BoundingBox box : trackChooser.getInclusiveBoundingBoxes()){
-                    box.drawIfSelected(x, y, false);
-                }
-
+                /*
                 resetBackground();
                 leaTrack.initTrackFrame();
                 leaTrack.displayGrid();
                 leaTrack.displayAllBoundingBoxes();
-
+                */
+                for (Button button : trackChooser.getButtons()){
+                    if (button.isHovered(xMouse, yMouse)){
+                        button.setPressedStatus(true);
+                        button.updateDisplay();
+                        break;
+                    }
+                }
                 while (StdDraw.mousePressed()) {
                 }
             }
