@@ -1,3 +1,4 @@
+package Opgave3;
 import java.awt.Color;
 
 public class BoundingBox{

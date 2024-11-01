@@ -1,51 +1,137 @@
-import java.awt.Color;
+package Opgave3;
 import java.util.ArrayList;
 
-
-
 public class RaceTrack {
+    private static final int DEFAULT_MARGIN = 10;
+    private String premadeID = "new";
     private int gridWidth = 0; 
     private int gridLength = 0;
     private int mapWidthPx = 0;
     private int mapLengthPx = 0;
-    private int xMarginPx = 10;
-    private int yMarginPx = 10;
+    private int xMarginPx = DEFAULT_MARGIN;
+    private int yMarginPx = DEFAULT_MARGIN;
 
     private ArrayList<BoundingBox> inclusiveBoxes;
     private ArrayList<BoundingBox> exclusiveBoxes;
 
-    private RaceTrack(int width, int length){
+    private RaceTrack(int width, int length, String id){
         this.gridWidth = width;
         this.gridLength = length;
+        this.premadeID = id;
 
         this.mapWidthPx = gridWidth*Main.SQUARE_SIZE_PX;
         this.mapLengthPx = gridLength*Main.SQUARE_SIZE_PX;
+
+        this.inclusiveBoxes = new ArrayList<>();
+        this.exclusiveBoxes = new ArrayList<>();
+        if (!premadeID.equals("new")){
+            addBoundingBoxesFromID(premadeID);
+        }
     }
 
     public static RaceTrack create(String premadeTrackID) {
         switch (premadeTrackID) {
-            case "Square" -> {
-                return new RaceTrack(10,10);
+            case "TrackChooser" -> {
+                return new RaceTrack(20,20, premadeTrackID);
             }
-            case "Rectangular" -> {
-                return new RaceTrack(20,10);
+            case "Square" -> {
+                return new RaceTrack(10,10, premadeTrackID);
+            }
+            case "Lea" -> {
+                return new RaceTrack(42,36, premadeTrackID);
+            }
+            case "new" -> {
+                System.out.println("Created new track from scratch.");
+                return new RaceTrack(10,10, premadeTrackID);
             }
             default -> {
-                throw new IllegalArgumentException("Invalid track: " + premadeTrackID);
+                throw new IllegalArgumentException("Invalid track: " + premadeTrackID + ", created new empty track.");
             }   
         }
     }
 
+    public void addBoundingBox(BoundingBox box, boolean inclusive){
+        if (inclusive){
+            this.inclusiveBoxes.add(box);
+        } else {
+            this.exclusiveBoxes.add(box);
+        }
+    }
+
+    public void removeBoundingBox(int index, boolean inclusive){
+        if (inclusive){
+            this.inclusiveBoxes.remove(index);
+        } else {
+            this.exclusiveBoxes.remove(index);
+        }
+    }
+
+    public void addBoundingBoxesFromID(String ID){
+        switch (ID) {
+            case "TrackChooser" -> {
+                this.inclusiveBoxes.add(new BoundingBox(2, 2, 9, 9, true));
+
+                this.inclusiveBoxes.add(new BoundingBox(11, 11, 18, 18, true));
+
+                this.inclusiveBoxes.add(new BoundingBox(2, 11, 9, 18, true));
+                this.inclusiveBoxes.add(new BoundingBox(11, 2, 18, 9, true));
+            }
+            case "Square" -> {
+                
+            }
+            case "Lea" -> {
+                this.inclusiveBoxes.add(new BoundingBox(10, 6, 33, 31, true));
+                
+            }
+            default -> {
+                throw new IllegalArgumentException("Encountered problem: Tried adding BoundingBoxes to " + ID + " which has no presets.");
+            }   
+        }
+    }
+
+    public void displayInclusiveBoundingBoxes(){
+        for (BoundingBox box : this.inclusiveBoxes){
+            box.display(Main.TRACK_COLOR);
+        }
+    }
+
+    public void displayExclusiveBoundingBoxes(){
+        for (BoundingBox box : this.exclusiveBoxes){
+            box.display(Main.BACKGROUND_COLOR);
+        }
+    }
+
+    public void displayAllBoundingBoxes(){
+        this.displayInclusiveBoundingBoxes();
+        this.displayExclusiveBoundingBoxes();
+    }
+
+    public ArrayList<BoundingBox> getInclusiveBoundingBoxes(){
+        return this.inclusiveBoxes;
+    }
+
+    public void clearBoundingBoxes(){
+        this.inclusiveBoxes = new ArrayList<>();
+        this.exclusiveBoxes = new ArrayList<>();
+    }
+
     public void initTrackFrame(){
+        if (gridWidth != gridLength){
+            int gridDifference = Math.max(gridWidth, gridLength)-Math.min(gridWidth, gridLength);
+            if (gridWidth > gridLength){
+                yMarginPx = DEFAULT_MARGIN + gridDifference*Main.SQUARE_SIZE_PX;
+            } else {
+                xMarginPx = DEFAULT_MARGIN + gridDifference*Main.SQUARE_SIZE_PX;
+            }
+        }
         StdDraw.setXscale(-xMarginPx,mapWidthPx+xMarginPx);
         StdDraw.setYscale(-yMarginPx,mapLengthPx+yMarginPx);
     }
 
     public void displayGrid(){
-        Color trackStrokeColor = new Color(100,130,150);
+        StdDraw.setPenColor(Main.GRID_DOT_COLOR);
         for (int row = 0; row <= gridWidth; row++){
             for (int column = 0; column <= gridLength; column++){ 
-                StdDraw.setPenColor(trackStrokeColor);
                 StdDraw.filledCircle(row*5, column*5, 0.2);
             }
         }
@@ -97,4 +183,15 @@ public class RaceTrack {
         //StdDraw.filledCircle(laneWidth, laneWidth, 1);
     }
 
+    public int getMaxMargin(){
+        return Math.max(this.xMarginPx, this.yMarginPx);
+    }
+
+    public int getMapWidthPx(){
+        return this.mapWidthPx;
+    }
+
+    public int getMapLengthPx(){
+        return this.mapWidthPx;
+    }
 }
