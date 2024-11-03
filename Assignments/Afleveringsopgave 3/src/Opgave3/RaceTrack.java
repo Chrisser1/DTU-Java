@@ -1,24 +1,34 @@
 package Opgave3;
 import java.util.ArrayList;
+import java.awt.Color;
 
 public class RaceTrack {
+    private static final Color FINISH_LINE_COLOR = new Color(100,200,100);
     private static final int DEFAULT_MARGIN = 10;
-    private String premadeID = "new";
+    private String id = "new";
+
     private int gridWidth = 0; 
     private int gridLength = 0;
     private int mapWidthPx = 0;
     private int mapLengthPx = 0;
+
+    private int x1Finish, y1Finish, x2Finish, y2Finish;
+
     private int xMarginPx = DEFAULT_MARGIN;
     private int yMarginPx = DEFAULT_MARGIN;
 
     private ArrayList<BoundingBox> inclusiveBoxes;
     private ArrayList<BoundingBox> exclusiveBoxes;
     private ArrayList<Button> buttons;
+    private boolean requiresCustomSize;
 
-    private RaceTrack(int width, int length, String id){
+    private static ArrayList<Car> trackCars = new ArrayList<>();
+    private Car selectedCar;
+
+    private RaceTrack(int width, int length, String inputId, boolean customSized){
         this.gridWidth = width;
         this.gridLength = length;
-        this.premadeID = id;
+        this.id = inputId;
 
         this.mapWidthPx = gridWidth*Main.SQUARE_SIZE_PX;
         this.mapLengthPx = gridLength*Main.SQUARE_SIZE_PX;
@@ -26,28 +36,64 @@ public class RaceTrack {
         this.inclusiveBoxes = new ArrayList<>();
         this.exclusiveBoxes = new ArrayList<>();
         this.buttons = new ArrayList<>();
-        if (!premadeID.equals("new")){
-            addBoundingBoxesFromID(premadeID);
-        }
-    }
 
-    public static RaceTrack create(String premadeTrackID) {
-        switch (premadeTrackID) {
+        this.requiresCustomSize = customSized;
+
+        switch (inputId){
             case "TrackChooser" -> {
-                return new RaceTrack(20,20, premadeTrackID);
             }
             case "Square" -> {
-                return new RaceTrack(10,10, premadeTrackID);
+                x1Finish = gridWidth/2;
+                y1Finish = 0;
+                x2Finish = gridWidth/2;
+                y2Finish = gridLength/4;
             }
-            case "Lea" -> {
-                return new RaceTrack(42,36, premadeTrackID);
+            case "LShape" -> {
+                x1Finish = gridWidth/2;
+                y1Finish = 0;
+                x2Finish = gridWidth/2;
+                y2Finish = 2;
             }
-            case "new" -> {
-                System.out.println("Created new track from scratch.");
-                return new RaceTrack(10,10, premadeTrackID);
+            case "Turns" -> {
+                x1Finish = gridWidth/2;
+                y1Finish = 0;
+                x2Finish = gridWidth/2;
+                y2Finish = 2;
             }
             default -> {
-                throw new IllegalArgumentException("Invalid track: " + premadeTrackID + ", created new empty track.");
+                System.out.println("New track - Defaulted finish line.");
+                x1Finish = 1;
+                y1Finish = 1;
+                x2Finish = 2;
+                y2Finish = 1;
+            }  
+        }
+
+        Car car = new Car(x1Finish,y1Finish+1, "Player", this);
+        trackCars.add(car);
+        this.selectedCar = car;
+    }
+
+    public static RaceTrack create(String premadeTrackID, boolean customSized) {
+        switch (premadeTrackID) {
+            case "TrackChooser" -> {
+                return new RaceTrack(20,20, premadeTrackID, customSized);
+            }
+            case "TrackBuilder" -> {
+                return new RaceTrack(1,1, premadeTrackID, customSized);
+            }
+            case "Square" -> {
+                return new RaceTrack(1,1, premadeTrackID, customSized);
+            }
+            case "LShape" -> {
+                return new RaceTrack(12,20, premadeTrackID, customSized);
+            }
+            case "Turns" -> {
+                return new RaceTrack(38,30, premadeTrackID, customSized);
+            }
+            default -> {
+                System.out.println("Created new track with ID:" + premadeTrackID);
+                return new RaceTrack(1,1, premadeTrackID, customSized);
             }   
         }
     }
@@ -71,21 +117,67 @@ public class RaceTrack {
     public void addBoundingBoxesFromID(String ID){
         switch (ID) {
             case "TrackChooser" -> {
-                this.buttons.add(new Button(2, 2, 9, 9, "Square"));
-                this.buttons.add(new Button(11, 11, 18, 18, "Lea"));
-                this.buttons.add(new Button(2, 11, 9, 18, "new"));
-                this.buttons.add(new Button(11, 2, 18, 9, "TrackChooser"));
+                this.buttons.add(new Button(2, 2, 9, 9, "Turns", this));
+                this.buttons.add(new Button(11, 11, 18, 18, "LShape", this));
+                this.buttons.add(new Button(2, 11, 9, 18, "Square", this));
+                this.buttons.add(new Button(11, 2, 18, 9, "new", this));
+            }
+            case "TrackBuilder" -> {
+
+            }
+            case "new" -> {
+
             }
             case "Square" -> {
-                
+                this.inclusiveBoxes.add(new BoundingBox(0, 0, gridWidth, gridLength, true));
+                int x = gridWidth/4;
+                int y = gridLength/4;
+                if (gridWidth % 4 != 0){
+                    x++;
+                }
+                if (gridLength % 4 != 0){
+                    y++;
+                }
+                this.exclusiveBoxes.add(new BoundingBox(x, y, gridWidth-x, gridLength-y, false));
             }
-            case "Lea" -> {
-                this.inclusiveBoxes.add(new BoundingBox(10, 6, 33, 31, true));
+            case "LShape" -> {
+                this.inclusiveBoxes.add(new BoundingBox(0, 0, gridWidth, 5, true));
+                this.inclusiveBoxes.add(new BoundingBox(0, 5, 5, gridLength, true));
+
+                this.exclusiveBoxes.add(new BoundingBox(2, 2, gridWidth-2, 3, false));
+                this.exclusiveBoxes.add(new BoundingBox(2, 3, 3, gridLength-2, false));
+            }
+            case "Turns" -> {
+                this.inclusiveBoxes.add(new BoundingBox(0, 0, gridWidth, gridLength, true));
+
+                for (int i = 2; i < gridWidth-2; i = i+8){
+                    this.exclusiveBoxes.add(new BoundingBox(i, 4, i+2, gridLength-2, false));
+                    this.exclusiveBoxes.add(new BoundingBox(i+4, 6, i+6, gridLength, false));
+                }
+                this.exclusiveBoxes.add(new BoundingBox(2, 2, gridWidth-2, 4, false));
                 
             }
             default -> {
                 throw new IllegalArgumentException("Encountered problem: Tried adding BoundingBoxes to " + ID + " which has no presets.");
             }   
+        }
+    }
+
+    public void addControlPanelButtons(){
+        if (!this.id.equals("TrackChooser") && !this.id.equals("TrackBuilder")){
+            int panelXStart = gridWidth+2;
+            int panelLengthMidPoint = gridLength/2;
+            int buttonSize = 1;
+            int spacing = 1;
+            this.buttons.add(new Button(panelXStart, panelLengthMidPoint, panelXStart+buttonSize, panelLengthMidPoint+buttonSize, "1", this));
+            this.buttons.add(new Button(panelXStart+buttonSize+spacing, panelLengthMidPoint, panelXStart+buttonSize*2+spacing, panelLengthMidPoint+buttonSize, "2", this));
+            this.buttons.add(new Button(panelXStart+buttonSize*2+spacing*2, panelLengthMidPoint, panelXStart+buttonSize*3+spacing*2, panelLengthMidPoint+buttonSize, "3", this));
+            this.buttons.add(new Button(panelXStart, panelLengthMidPoint+buttonSize+spacing, panelXStart+buttonSize, panelLengthMidPoint+buttonSize*2+spacing, "4", this));
+            this.buttons.add(new Button(panelXStart+buttonSize+spacing, panelLengthMidPoint+buttonSize+spacing, panelXStart+buttonSize*2+spacing, panelLengthMidPoint+buttonSize*2+spacing, "5", this));
+            this.buttons.add(new Button(panelXStart+buttonSize*2+spacing*2, panelLengthMidPoint+buttonSize+spacing, panelXStart+buttonSize*3+spacing*2, panelLengthMidPoint+buttonSize*2+spacing, "6", this));
+            this.buttons.add(new Button(panelXStart, panelLengthMidPoint+buttonSize*2+spacing*2, panelXStart+buttonSize, panelLengthMidPoint+buttonSize*3+spacing*2, "7", this));
+            this.buttons.add(new Button(panelXStart+buttonSize+spacing, panelLengthMidPoint+buttonSize*2+spacing*2, panelXStart+buttonSize*2+spacing, panelLengthMidPoint+buttonSize*3+spacing*2, "8", this));
+            this.buttons.add(new Button(panelXStart+buttonSize*2+spacing*2, panelLengthMidPoint+buttonSize*2+spacing*2, panelXStart+buttonSize*3+spacing*2, panelLengthMidPoint+buttonSize*3+spacing*2, "9", this));
         }
     }
 
@@ -110,6 +202,10 @@ public class RaceTrack {
         return this.inclusiveBoxes;
     }
 
+    public ArrayList<BoundingBox> getExclusiveBoundingBoxes(){
+        return this.exclusiveBoxes;
+    }
+
     public void clearBoundingBoxes(){
         this.inclusiveBoxes = new ArrayList<>();
         this.exclusiveBoxes = new ArrayList<>();
@@ -124,7 +220,8 @@ public class RaceTrack {
                 xMarginPx = DEFAULT_MARGIN + gridDifference*Main.SQUARE_SIZE_PX;
             }
         }
-        StdDraw.setXscale(-xMarginPx,mapWidthPx+xMarginPx);
+        int controlPanelSize = (xMarginPx+mapWidthPx)/2;
+        StdDraw.setXscale(-xMarginPx,mapWidthPx+xMarginPx+controlPanelSize);
         StdDraw.setYscale(-yMarginPx,mapLengthPx+yMarginPx);
     }
 
@@ -201,5 +298,39 @@ public class RaceTrack {
 
     public ArrayList<Button> getButtons(){
         return this.buttons;
+    }
+
+    public String getID(){
+        return this.id;
+    }
+
+    public boolean requiresCustomSize(){
+        return this.requiresCustomSize;
+    }
+
+    public void setGridWidth(int xValue){
+        this.gridWidth = xValue;
+        this.mapWidthPx = gridWidth*Main.SQUARE_SIZE_PX;
+    }
+
+    public void setGridLength(int yValue){
+        this.gridLength = yValue;
+        this.mapLengthPx = gridLength*Main.SQUARE_SIZE_PX;
+    }
+
+    public Car getSelectedCar(){
+        return this.selectedCar;
+    }
+
+    public void drawFinishLine(){
+        StdDraw.setPenColor(FINISH_LINE_COLOR);
+        StdDraw.line(x1Finish*Main.SQUARE_SIZE_PX, y1Finish*Main.SQUARE_SIZE_PX, x2Finish*Main.SQUARE_SIZE_PX, y2Finish*Main.SQUARE_SIZE_PX);
+    }
+
+    public int getX1Finish(){
+        return this.x1Finish;
+    }
+    public int getY1Finish(){
+        return this.y1Finish;
     }
 }
